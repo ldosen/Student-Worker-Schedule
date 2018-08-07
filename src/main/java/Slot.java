@@ -57,11 +57,11 @@ public class Slot extends Conflictable {
     public int getNumberCurrentlyAvailable(){
         return numberCurrentlyAvailable;
     }
-        public int getMax(){
-            return max;
-        }
+    public int getMax(){
+        return max;
+    }
     public String getDate(){
-       return date;
+        return date;
     }
     public boolean atMax(){
         return numberOfPeopleWorking >= max;

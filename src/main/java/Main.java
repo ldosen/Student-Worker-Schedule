@@ -31,13 +31,13 @@ public class Main {
             date = entry.getValue().getDate();
             Character character = 'A';
             if (oldDate.equalsIgnoreCase(date)){
-               if (entry.getKey().contains("9:45") || entry.getKey().contains("10:45")){
-                   entry.getValue().addConflictMarker(character, integer);
-               }
+                if (entry.getKey().contains("9:45") || entry.getKey().contains("10:45")){
+                    entry.getValue().addConflictMarker(character, integer);
+                }
             }
             else {
+                integer++;
                 if (entry.getKey().contains("9:45") || entry.getKey().contains("10:45")) {
-                    integer++;
                     System.out.println("Integer" + integer);
                     entry.getValue().addConflictMarker(character, integer);
                 }
@@ -48,16 +48,19 @@ public class Main {
         for (Map.Entry<String, Slot> entry : schedule.entrySet()){
             String oldDate = dateTwo;
             dateTwo = entry.getValue().getDate();
-            Character character = 'B';
+            System.out.println(dateTwo);
+            System.out.println("Hey" + oldDate);
+            Character character = 'C';
             if (oldDate.equalsIgnoreCase(dateTwo)){
-                if (entry.getKey().contains("9:45") || entry.getKey().contains("10:45")){
+                if (entry.getKey().contains("12:45") || entry.getKey().contains("1:15")){
                     entry.getValue().addConflictMarker(character, integerTwo);
                 }
             }
             else {
-                if (entry.getKey().contains("9:45") || entry.getKey().contains("10:45")) {
-                    integerTwo++;
-                    System.out.println("Integer" + integerTwo);
+                integerTwo++;
+                System.out.println("BRUDDA");
+                if (entry.getKey().contains("12:45") || entry.getKey().contains("1:15")){
+                    System.out.println("Dog");
                     entry.getValue().addConflictMarker(character, integerTwo);
                 }
             }
@@ -85,6 +88,7 @@ public class Main {
         for (Map.Entry<String, Person> entry : peopleHash.entrySet()){
             System.out.println(entry.getKey() + " " + entry.getValue().getNumberScheduled());
         }
+
 
         System.out.println("---------------------------------");
     }

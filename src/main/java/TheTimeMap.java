@@ -1,6 +1,5 @@
 import exception.PersonDuplicateException;
 import exception.TimeDateInvalidFormatException;
-import exception.TimeDateNotFoundException;
 
 import java.util.*;
 
@@ -127,7 +126,7 @@ public class TheTimeMap implements Schedule {
         numberOfTimeSlots++;
         return true;
     }
-    public Set<String> setOfTimeStrings() { 
+    public Set<String> setOfTimeStrings() {
         return timeSlotMap.keySet();
     }
     public Collection<Slot> collectionOfSlots() {

@@ -7,7 +7,7 @@ public abstract class Conflictable {
     private static HashSet<ConflictMarker> allConflictMarkers = new HashSet<>();
 
     public boolean addConflictMarkerToInstance(ConflictMarker conflictMarker) {
-        if(setOfPotentialConflicts.contains(conflictMarker)){
+        if (setOfPotentialConflicts.contains(conflictMarker)) {
             return false;
         }
         setOfPotentialConflicts.add(conflictMarker);
@@ -29,25 +29,28 @@ public abstract class Conflictable {
         }
         return answer;
     }
-    public void removeLinkedConflictsFromOtherConflictable(Conflictable conflictable){
+
+    public void removeLinkedConflictsFromOtherConflictable(Conflictable conflictable) {
         {
             conflictable.setOfPotentialConflicts.removeAll(this.setOfPotentialConflicts);
         }
     }
+
     public boolean removeConflictMarkerFromInstance(ConflictMarker conflictMarker) {
         return setOfPotentialConflicts.remove(conflictMarker);
     }
 
-    public void addAllConflictMarkersToObj(Conflictable conflictable){
+    public void addAllConflictMarkersToObj(Conflictable conflictable) {
         conflictable.setOfPotentialConflicts.addAll(this.setOfPotentialConflicts);
     }
-    public boolean removeConflictMarkerFromAllConflictMarkers(ConflictMarker conflictMarker){
+
+    public boolean removeConflictMarkerFromAllConflictMarkers(ConflictMarker conflictMarker) {
         return allConflictMarkers.remove(conflictMarker);
     }
-    public void displayConflictMarkers(){
-        for (ConflictMarker conflictMarker: setOfPotentialConflicts){
+
+    public void displayConflictMarkers() {
+        for (ConflictMarker conflictMarker : setOfPotentialConflicts) {
             System.out.println(conflictMarker + conflictMarker.thingToHash);
         }
     }
-
 }
