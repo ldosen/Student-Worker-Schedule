@@ -4,7 +4,7 @@ import java.util.Map;
 public class PersonMapHash {
     private HashMap<String, Person> people = new HashMap<>(97);
 
-    public void put(String key, Person value) {
+    public void put(final String key, final Person value) {
         people.put(key, value);
     }
 
@@ -16,27 +16,25 @@ public class PersonMapHash {
         people.clear();
     }
 
-    public boolean containsKey(String personID) {
+    public boolean containsKey(final String personID) {
         return people.containsKey(personID);
     }
 
-    public boolean containsValue(Person person) {
+    public boolean containsValue(final Person person) {
         return people.containsValue(person);
     }
 
     public Set<String> keySet() {
         Set<String> setOfPeople = new HashSet<>();
-        for (String key : people.keySet()) {
-            setOfPeople.add(key);
-        }
+        setOfPeople.addAll(people.keySet());
         return setOfPeople;
     }
 
-    public Person remove(String key) {
+    public Person remove(final String key) {
         return people.remove(key);
     }
 
-    public Person get(String key) {
+    public Person get(final String key) {
         return people.get(key);
     }
 
@@ -44,7 +42,7 @@ public class PersonMapHash {
         return people.size();
     }
 
-    public boolean updateToNewPersonObj(String person, Person human) {
+    public boolean updateToNewPersonObj(final String person, final Person human) {
         if (people.containsKey(person)) {
             people.put(person, human);
             return true;

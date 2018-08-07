@@ -20,7 +20,7 @@ public class Person extends Conflictable{
     /**
      * Constructor that sets a persons name field. It converts it to lower case to avoid any issues with the input.
      */
-    public Person(String name){
+    public Person(final String name){
         this.name = name.toLowerCase();
         numberInitiallyAvailable = 0;
     }
@@ -30,7 +30,7 @@ public class Person extends Conflictable{
      * @return An ArrayList of Strings with the times a person was initially free.
      */
     public ArrayList<String> getTimesFree(){
-        ArrayList<String> arrayToReturn = new ArrayList<>(timesFree.size());
+        final ArrayList<String> arrayToReturn = new ArrayList<>(timesFree.size());
         arrayToReturn.addAll(timesFree);
         return arrayToReturn;
     }
@@ -40,7 +40,7 @@ public class Person extends Conflictable{
      * @return An ArrayList of Strings with the times a person is working.
      */
     public ArrayList<String> getTimesWorking(){
-        ArrayList<String> arrayToReturn = new ArrayList<>(timesFree.size());
+        final ArrayList<String> arrayToReturn = new ArrayList<>(timesFree.size());
         arrayToReturn.addAll(timesFree);
         return arrayToReturn;
     }
@@ -50,7 +50,7 @@ public class Person extends Conflictable{
      * @param timeDate The time and Date that a person is free.
      * @Post The p
      */
-    public void addTimeFree(String timeDate){
+    public void addTimeFree(final String timeDate){
             timesFree.add(timeDate);
             numberInitiallyAvailable++;
         }
@@ -61,7 +61,7 @@ public class Person extends Conflictable{
      * @post The Person's timesFree HashSet will not contain the timeDate
      *
      */
-    public void removeTimeFree(String timeDate){
+    public void removeTimeFree(final String timeDate){
         timesFree.remove(timeDate);
     }
 
@@ -70,7 +70,7 @@ public class Person extends Conflictable{
      * @param timeDate The time and date that a person is now working
      * @post The person's timesWorking HashSet will now contain the timeDate string.
      */
-    public void addTimeWorking(String timeDate){
+    public void addTimeWorking(final String timeDate){
         timesWorking.add(timeDate);
         numberScheduled++;
     }
@@ -112,7 +112,7 @@ public class Person extends Conflictable{
      * @param newName The name to give a person object
      * @post Person's name field will now be newName
      */
-    public void setName(String newName){
+    public void setName(final String newName){
         this.name = newName.toLowerCase();
     }
 
@@ -123,7 +123,7 @@ public class Person extends Conflictable{
      * @return True if the conflict Marker was successfully added to a person. False if the conflict marker was not added.
      * @Post conflictMarker will be present in the person object.
      */
-    public boolean addConflictMarker(Character character, int i){
+    public boolean addConflictMarker(final Character character, final int i){
         boolean added = false;
         ConflictMarker conflictMarker = new ConflictMarker(character, i);
         System.out.println("Attempting to add a ConflictMarker object " + conflictMarker.hashCode() + " to person " + this.getName());
@@ -143,7 +143,7 @@ public class Person extends Conflictable{
      * @return Always returns false.
      */
     @Override
-    public boolean removeConflictMarkerFromAllConflictMarkers(ConflictMarker conflictMarker){
+    public boolean removeConflictMarkerFromAllConflictMarkers(final ConflictMarker conflictMarker){
         System.out.println("Unsupported operation for person. If you intended to remove this type of conflict from the master set of conflicts please use another class that supports this operation like slot.");
         return false;
     }
@@ -153,7 +153,7 @@ public class Person extends Conflictable{
      * @param conflictable Another Conflictable object
      */
     @Override
-    public void removeLinkedConflictsFromOtherConflictable(Conflictable conflictable){
+    public void removeLinkedConflictsFromOtherConflictable(final Conflictable conflictable){
         System.out.println("removeLinkedConflictsFromOtherConflictable is not supported by class Person");
     }
 
@@ -164,7 +164,7 @@ public class Person extends Conflictable{
      * @return True if the conflict marker was removed. False if the conflict marker was not removed from the person.
      * @post ConflictMarker will not be present in the person object.
      */
-    public boolean removeConflictMarker(Character character, int i) {
+    public boolean removeConflictMarker(final Character character, final int i) {
         ConflictMarker conflictMarkerToRemove = new ConflictMarker(character, i);
         System.out.println("Attempting to remove a conflict marker " + conflictMarkerToRemove.hashCode() + "from person " + this.getName());
         boolean removed = this.removeConflictMarkerFromInstance(conflictMarkerToRemove);
@@ -212,7 +212,7 @@ public class Person extends Conflictable{
      * @return True if the objects are the same, or if the object is an instance of person and has the same name. False if the object obj is not an instance of person or if the two objects do not share the same name.
      */
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(final Object obj){
         if (obj == this){
             return true;
         }

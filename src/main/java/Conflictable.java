@@ -8,15 +8,15 @@ import java.util.Map;
  */
 
 public abstract class Conflictable {
-    private HashSet<ConflictMarker> setOfPotentialConflicts = new HashSet<>();
-    private static HashSet<ConflictMarker> allConflictMarkers = new HashSet<>();
+    private final HashSet<ConflictMarker> setOfPotentialConflicts = new HashSet<>();
+    private final static HashSet<ConflictMarker> allConflictMarkers = new HashSet<>();
 
     /**
      * Add's a conflict marker to the setOfPotentialConflictMarkers if possible.
      * @param conflictMarker A marker that indicates that there is a specific type of conflict. For example A1 might be used for both 9:30 and 10:30 on July 1st to signify that there is a conflict at these times.
      * @return True if the conflict marker was not already contained in the setOfPotentialConflicts. False if the marker was already present.
      */
-    public boolean addConflictMarkerToInstance(ConflictMarker conflictMarker) {
+    public boolean addConflictMarkerToInstance(final ConflictMarker conflictMarker) {
         if (setOfPotentialConflicts.contains(conflictMarker)) {
             return false;
         }
@@ -30,12 +30,12 @@ public abstract class Conflictable {
      * @param conflictable Another Conflictable object
      * @return True if there is a conflict. False if there is not a conflict.
      */
-    public boolean checkForPotentialConflicts(Conflictable conflictable) {
+    public boolean checkForPotentialConflicts(final Conflictable conflictable) {
         Boolean answer = false;
         if (this.setOfPotentialConflicts.isEmpty() || conflictable.setOfPotentialConflicts.isEmpty()) {
             return false;
         } else {
-            Iterator<ConflictMarker> itr = this.setOfPotentialConflicts.iterator();
+            final Iterator<ConflictMarker> itr = this.setOfPotentialConflicts.iterator();
             while (itr.hasNext()) {
                 if (conflictable.setOfPotentialConflicts.contains(itr.next())) {
                     answer = true;
@@ -49,7 +49,7 @@ public abstract class Conflictable {
      * This method removes all the conflict markers from another conflicable object that are also on this object.
      * @param conflictable Another Conflictable object
      */
-    public void removeLinkedConflictsFromOtherConflictable(Conflictable conflictable) {
+    public void removeLinkedConflictsFromOtherConflictable(final Conflictable conflictable) {
         {
             conflictable.setOfPotentialConflicts.removeAll(this.setOfPotentialConflicts);
         }
@@ -60,7 +60,7 @@ public abstract class Conflictable {
      * @param conflictMarker The conflictMarker to remove from this object's set of potential conflicts.
      * @return True if the object was removed. False if the object was not removed(not present).
      */
-    public boolean removeConflictMarkerFromInstance(ConflictMarker conflictMarker) {
+    public boolean removeConflictMarkerFromInstance(final ConflictMarker conflictMarker) {
         return setOfPotentialConflicts.remove(conflictMarker);
     }
 
@@ -68,7 +68,7 @@ public abstract class Conflictable {
      * Add's all of this object's conflict markers from it's set of potential conflicts to the other objects set of potential conflicts.
      * @param conflictable The conflictable object to add this object's conflict markers to.
      */
-    public void addAllConflictMarkersToObj(Conflictable conflictable) {
+    public void addAllConflictMarkersToObj(final Conflictable conflictable) {
         conflictable.setOfPotentialConflicts.addAll(this.setOfPotentialConflicts);
     }
 
@@ -77,7 +77,7 @@ public abstract class Conflictable {
      * @param conflictMarker A conflict marker object.
      * @return True if conflict marker was present and removed. False if conflict marker was not present and not removed.
      */
-    public boolean removeConflictMarkerFromAllConflictMarkers(ConflictMarker conflictMarker) {
+    public boolean removeConflictMarkerFromAllConflictMarkers(final ConflictMarker conflictMarker) {
         return allConflictMarkers.remove(conflictMarker);
     }
 
@@ -99,8 +99,8 @@ public abstract class Conflictable {
      * @param timeOne The first time string that conflicts with the second time
      * @param timeTwo The second time string that conflicts with the first time
      */
-    public static void applyThisCharRuleToEntireSchedule(TheTimeMap timeMap, Character character, String timeOne, String timeTwo){
-        for (ConflictMarker conflictMarker : allConflictMarkers){
+    public static void applyThisCharRuleToEntireSchedule(final TheTimeMap timeMap, final Character character, final String timeOne, final String timeTwo){
+        for (final ConflictMarker conflictMarker : allConflictMarkers){
             if (conflictMarker.getChar().equals(character)){
                 throw new IllegalArgumentException("Character has already been used. Please choose a new character to specify a type of conflict");
             }

@@ -12,7 +12,7 @@ public class ConflictMarker {
         System.out.println("Warning! This is Conflict Marker does not contain any meaningful data. Please use the second constructor to initialize it properly");
     }
 
-    public ConflictMarker(Character character, int integer) {
+    public ConflictMarker(final Character character, final int integer) {
         this.character = character;
         integerValue = integer;
         thingToHash = Character.toString(character) + Integer.toString(integerValue);
@@ -24,7 +24,7 @@ public class ConflictMarker {
         return character;
     }
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this) {
             return true;
         }

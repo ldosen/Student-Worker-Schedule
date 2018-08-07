@@ -26,7 +26,7 @@ public class DataInterface {
     private String readSheetID = "1UHWD0gPBFV-ab7qa3FQ0pDbSYTxsrFpmXZGp71xFQwQ";
     private String writeSheetID = "1hRLbsjpvW20V1b_QytLXNQ7TqQshh7eHdbP5ZD5NrPw";
     final String inputValueOption = "RAW";
-    public void getDataFromSpreadsheet(PersonMapHash peopleMap, TheTimeMap timeMap) {
+    public void getDataFromSpreadsheet(final PersonMapHash peopleMap, final TheTimeMap timeMap) {
         peopleMap.clear();
         timeMap.clear();
         try {
@@ -110,7 +110,7 @@ public class DataInterface {
         }
     }
 
-    public UpdateValuesResponse updateValues(String range, List<List<Object>> _values) throws IOException {
+    public UpdateValuesResponse updateValues(final String range, final List<List<Object>> _values) throws IOException {
         // [START sheets_update_values]
         List<List<Object>> values;
         // [START_EXCLUDE silent]

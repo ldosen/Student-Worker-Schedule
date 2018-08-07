@@ -1,5 +1,6 @@
 import exception.PersonDuplicateException;
 import exception.TimeDateInvalidFormatException;
+import exception.TimeDateNotFoundException;
 
 import java.util.*;
 
@@ -16,22 +17,22 @@ public class TheTimeMap implements Schedule {
         numberOfTimeSlots = 0;
     }
 
-    public TheTimeMap(int initialCapacity) {
+    public TheTimeMap(final int initialCapacity) {
         timeSlotMap = new LinkedHashMap<>(initialCapacity);
         numberOfTimeSlots = 0;
     }
 
-    public TheTimeMap(int initialCapacity, float loadFactor) {
+    public TheTimeMap(final int initialCapacity, final float loadFactor) {
         timeSlotMap = new LinkedHashMap<>(initialCapacity, loadFactor);
         numberOfTimeSlots = 0;
     }
 
-    public boolean containsTimeSlot(Slot value) {
+    public boolean containsTimeSlot(final Slot value) {
         return timeSlotMap.containsValue(value);
     }
 
     //* This is the one that we would use to see if there is a time on the schedule*/
-    public boolean containsTime(String key) {
+    public boolean containsTime(final String key) {
         return timeSlotMap.containsKey(key);
     }
 
@@ -40,8 +41,7 @@ public class TheTimeMap implements Schedule {
      */
     @Override
     public void displaySchedule() {
-
-        for (Map.Entry<String, Slot> entry : entrySet()){
+        for (final Map.Entry<String, Slot> entry : entrySet()){
             System.out.println("Time " + entry.getValue().getTime() + " " + entry.getValue().getDate());
             System.out.println("People who are available to fill the time slot: " + entry.getValue().getPeopleAvailableNamems());
             System.out.println("People who are working this time slot: " + entry.getValue().getPeopleWorkingNames());
@@ -54,8 +54,8 @@ public class TheTimeMap implements Schedule {
      * @param timeDate
      */
     @Override
-    public void displayPeopleAvailable(String timeDate) {
-        Slot entry = timeSlotMap.get(timeDate);
+    public void displayPeopleAvailable(final String timeDate) {
+        final Slot entry = timeSlotMap.get(timeDate);
         if (entry == null){
             throw new TimeDateNotFoundException("Time Date not found!");
         }
@@ -68,8 +68,8 @@ public class TheTimeMap implements Schedule {
      * @param timeDate
      */
     @Override
-    public void displayPeopleWorking(String timeDate) {
-        Slot entry = timeSlotMap.get(timeDate);
+    public void displayPeopleWorking(final String timeDate) {
+        final Slot entry = timeSlotMap.get(timeDate);
         if (entry == null){
             throw new TimeDateNotFoundException("Time date not found!");
         }
@@ -82,15 +82,15 @@ public class TheTimeMap implements Schedule {
      * @param timeDate
      */
     @Override
-    public void getMinAndMax(String timeDate) {
-        Slot slotToCheck = timeSlotMap.get(timeDate);
+    public void getMinAndMax(final String timeDate) {
+        final Slot slotToCheck = timeSlotMap.get(timeDate);
 
         if (slotToCheck == null){
             throw new TimeDateNotFoundException("Time date not found!");
         }
 
-        int minimum = slotToCheck.getMinimumRequired();
-        int maximum = slotToCheck.getMax();
+        final int minimum = slotToCheck.getMinimumRequired();
+        final int maximum = slotToCheck.getMax();
         //print min
         System.out.println("The minimum number of people who need to work at " + timeDate + " is " + minimum);
 
@@ -98,18 +98,18 @@ public class TheTimeMap implements Schedule {
 
     }
 
-    public Slot getTimeSlot(String key) {
+    public Slot getTimeSlot(final String key) {
         return timeSlotMap.get(key);
     }
 
-    public Slot removeTimeSlot(String key) {
+    public Slot removeTimeSlot(final String key) {
         numberOfTimeSlots--;
         return timeSlotMap.remove(key);
     }
 
-    public boolean modifyTimeSlot(String key, int min, int max) {
+    public boolean modifyTimeSlot(final String key, final int min, final int max) {
         if (timeSlotMap.containsKey(key)) {
-            Slot theSlot = timeSlotMap.get(key);
+            final Slot theSlot = timeSlotMap.get(key);
             theSlot.setMinimumRequired(min);
             theSlot.setMax(max);
             return true;
@@ -122,7 +122,7 @@ public class TheTimeMap implements Schedule {
         numberOfTimeSlots = 0;
     }
 
-    public boolean putNewTimeSlotOnSchedule(String time, Slot timeSlotObj) {
+    public boolean putNewTimeSlotOnSchedule(final String time, final Slot timeSlotObj) {
         if (timeSlotMap.containsKey(time)) {
             return false;
         }
@@ -144,13 +144,7 @@ public class TheTimeMap implements Schedule {
     }
 
 
-    public PriorityQueue<Slot> slotPriorityQueue(Comparator<Slot> slotComparator){
-        PriorityQueue<Slot> slotPriorityQueue = new PriorityQueue<>(numberOfTimeSlots, slotComparator);
-        slotPriorityQueue.addAll(timeSlotMap.values());
-        return slotPriorityQueue;
-    }
-
-    public void deleteDayTimes(ArrayList<String> dayTimes){
+    public void deleteDayTimes(final ArrayList<String> dayTimes){
         Iterator<String> itr = timeSlotMap.keySet().iterator();
         while (itr.hasNext()){
             for (String str : dayTimes){
@@ -162,7 +156,7 @@ public class TheTimeMap implements Schedule {
         }
     }
 
-    public boolean tryToAddPersonToAvailableWithMap(Person person, int min, int max, String timeDate, String time, String date, PersonMapHash mapToReadAndUpdate) throws TimeDateInvalidFormatException {
+    public boolean tryToAddPersonToAvailableWithMap(Person person, final int min, final int max, final String timeDate, final String time, final String date, final PersonMapHash mapToReadAndUpdate) throws TimeDateInvalidFormatException {
         if (timeDate == null || timeDate.equals("")) {
             throw new TimeDateInvalidFormatException("Time Date is null or empty");
         }
@@ -176,14 +170,14 @@ public class TheTimeMap implements Schedule {
         return eliminateDry(person, min, max, timeDate, time, date, mapToReadAndUpdate);
     }
 
-    private boolean eliminateDry(Person person, int min, int max, String timeDate, String time, String date, PersonMapHash personMapHash){
+    private boolean eliminateDry(final Person person, final int min, final int max, final String timeDate, final String time, final String date, final PersonMapHash personMapHash){
 
         this.putNewTimeSlotOnSchedule(timeDate, new Slot(min, max, date, time));
 
         personMapHash.put(person.getName(), person);
         if (this.getTimeSlot(timeDate).containsInAvailable(person)) {
 
-            throw new PersonDuplicateException("The person existing in the time slot already");
+            throw new PersonDuplicateException("The person exists in the time slot already");
 
         }
         this.getTimeSlot(timeDate).addPersonToPeopleAvailable(person);

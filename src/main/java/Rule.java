@@ -19,7 +19,7 @@ public class Rule {
      * @param day The day that it must be to apply the specified min and max
      * @param time The time that it must also be to apply the specified min and max
      */
-    public void applyTimeDayRuleToSlot(Slot slot, String day, String time){
+    public void applyTimeDayRuleToSlot(final Slot slot, final String day, final String time){
         if (slot.getDate().contains(day)){
             if (slot.getTime().equals(time)){
                 slot.setMinimumRequired(minToSet);

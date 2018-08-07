@@ -4,12 +4,12 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Sheets sheet;
-        PersonMapHash peopleHash = new PersonMapHash(); // This is necessary to avoid infinite recursion utilizing the Comparator on the String key. It's worth the sacrirfice in space. HashMap is constant lookup time versus O(log n)
-        TheTimeMap schedule = new TheTimeMap();
-        DataInterface theDataInterface = new DataInterface();
+        final Sheets sheet;
+        final PersonMapHash peopleHash = new PersonMapHash(); // This is necessary to avoid infinite recursion utilizing the Comparator on the String key. It's worth the sacrirfice in space. HashMap is constant lookup time versus O(log n)
+        final TheTimeMap schedule = new TheTimeMap();
+        final DataInterface theDataInterface = new DataInterface();
         theDataInterface.getDataFromSpreadsheet(peopleHash, schedule);
-        ArrayList<String> timeToRemove = new ArrayList();
+        final ArrayList<String> timeToRemove = new ArrayList();
         final String inputValueOption = "RAW";
         /*
          Scanner input = new Scanner(System.in);
