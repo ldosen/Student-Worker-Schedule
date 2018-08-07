@@ -25,7 +25,7 @@ public class PersonMapHash {
     }
 
     public Set<String> keySet() {
-        Set<String> setOfPeople = new HashSet<>();
+        final Set<String> setOfPeople = new HashSet<>();
         setOfPeople.addAll(people.keySet());
         return setOfPeople;
     }

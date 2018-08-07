@@ -108,7 +108,7 @@ public class Slot extends Conflictable {
      */
     public ArrayList<String> getPeopleWorkingNames() {
         final ArrayList<String> people = new ArrayList<>(peopleWorking.size());
-        for (Person person : peopleWorking) {
+        for (final Person person : peopleWorking) {
             people.add(person.getName());
         }
         return people;
@@ -178,7 +178,7 @@ public class Slot extends Conflictable {
      */
     public boolean containsInWorking(final Person person){
         boolean found = false;
-        for (Person personItr : peopleWorking) {
+        for (final Person personItr : peopleWorking) {
             if (personItr.equals(person)){
                 found = true;
             }
@@ -230,7 +230,7 @@ public class Slot extends Conflictable {
      */
     public boolean containsInAvailable(final Person person) {
         boolean found = false;
-        for (Person personItr : peopleAvailable) {
+        for (final Person personItr : peopleAvailable) {
             if (personItr.equals(person)){
                 found = true;
             }
