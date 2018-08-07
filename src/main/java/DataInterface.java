@@ -9,11 +9,14 @@ import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.Collections;
 
-/* This class will interface with Google SpreadSheets and read and write to spreadsheets.
-   It might also be used to interface with a database in the future.
+/**
+ * This class deals with the API. The API stores values in a nested fashion. Therefore, we have to unpack the values into something that is readily accessible
+ * We chose to read the values into two HashMaps. The PersonHashMap contains the person's name as a key and a person object as a value. TheTimeMap is a schedule that
+ * uses a string that contains the date and time as a key and a time slot object as a value. In order to work properly, a person must have edit access to the spreadsheet.
+ * This class is very messy because of the way the values are nested in the API's batchGet method which is the most convenient way to unpack the spreadsheet info.
  */
 
-//TODO add spreadsheet ID as a parameter
+
 public class DataInterface {
     Sheets sheet;
     private int numberOfInputEntries; //WARNING SPREADSHEET must meet formatting to get an accurate number.
@@ -67,7 +70,6 @@ public class DataInterface {
             String time = "";
             for (int i = 0; i < numberOfCols; i++) {
                 Boolean columnEmpty = response.getValueRanges().get(0).getValues().get(i).isEmpty();
-                int numberOfRowsToProcess = response.getValueRanges().get(0).getValues().get(i).size();
                 if (columnEmpty) {
                     continue;
                 }
@@ -90,9 +92,7 @@ public class DataInterface {
                         timeDate = time + " " + dates.get(i);
                     }
                     if (meetsCriteriaToAddName) {
-                        if (j >= response.getValueRanges().get(0).getValues().get(i).size()) {
-                            name = "";
-                        } else {
+                        if (!(j >= response.getValueRanges().get(0).getValues().get(i).size())) {
                             name = (String) response.getValueRanges().get(0).getValues().get(i).get(j);
                             name = name.trim();
                         }

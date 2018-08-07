@@ -1,21 +1,18 @@
 import java.util.*;
 
 public class Slot extends Conflictable {
-    // TODO refactor so that there is a person map here. It would be a static field so it could be accessed via any slot.
-    // That way when we add or remove people from times, the times are accurartely reflected in the person hashmap.
     private final ArrayList<Person> peopleAvailable = new ArrayList<>();
     private final ArrayList<Person> peopleWorking = new ArrayList<>();
     private int numberOfPeopleAvailable = 0;
     private int numberOfPeopleWorking = 0;
-    private int numberCurrentlyAvailable = 0;
     private int minimumRequired = 0;
-    private int max; // We can use this with a priorityQueue so that we can continue to fill the slot to capacity.
+    private int max;
     private int leftToMax = max - numberOfPeopleWorking;
     private String date;
     private String time;
 
     /**
-     * private not allowed, the default must be provided in the client code
+     *  The default must be provided in the client code
      */
     private Slot()
     {
@@ -42,36 +39,61 @@ public class Slot extends Conflictable {
     private Slot(String date, String time){
         this(5, 6, date, time);
     }
-    public boolean peopleLeftToFillSlot(){
-        return peopleAvailable.size() != 0;
-    }
-    public int getLeftToMax(){
-        return leftToMax;
-    }
+
+    /**
+     *
+     * @return The minimum number of people that should be working this time slot. This may not be achievable based on all of the tour guides' availability.
+     */
     public int getMinimumRequired(){
         return minimumRequired;
     }
+
+    /**
+     *
+     * @return The number of people working during this time slot.
+     */
     public int getNumberOfPeopleWorking(){
         return numberOfPeopleWorking;
     }
-    public int getNumberCurrentlyAvailable(){
-        return numberCurrentlyAvailable;
-    }
+
+    /**
+     *
+     * @return The max or ideal number of people that can work this shift.
+     */
     public int getMax(){
         return max;
     }
+
+    /**
+     *
+     * @return The date that this slot is on
+     */
     public String getDate(){
         return date;
     }
+
+    /**
+     *
+     * @return True if the slot is at or beyond it's maximum number of people. For our purposes it should not go beyond the max.
+     */
     public boolean atMax(){
         return numberOfPeopleWorking >= max;
     }
+
+    /**
+     *
+     * @return An ArrayList of people who are available for this time slot.
+     */
     public ArrayList<Person> getPeopleAvailable() {
         ArrayList<Person> people = new ArrayList<>(peopleAvailable.size());
         people.addAll(peopleAvailable);
         return people;
     }
 
+    /**
+     *
+     * @return An ArrayList of Strings that are the names of the people available for this time slot.
+     */
     public ArrayList<String> getPeopleAvailableNamems() {
         ArrayList<String> people = new ArrayList<>(peopleAvailable.size());
         for (int i = 0; i < peopleAvailable.size(); i++) {
@@ -80,6 +102,10 @@ public class Slot extends Conflictable {
         return people;
     }
 
+    /**
+     *
+     * @return An ArrayList of Strings that are the names of the people who are working this time slot.
+     */
     public ArrayList<String> getPeopleWorkingNames() {
         ArrayList<String> people = new ArrayList<>(peopleWorking.size());
         for (Person person : peopleWorking) {
@@ -88,16 +114,26 @@ public class Slot extends Conflictable {
         return people;
     }
 
+    /**
+     *
+     * @return True if the number of people working this time slot is greater than or equal to the minimum number of people who should be working this time slot.
+     */
     public boolean isFilledToMin() {
         return numberOfPeopleWorking >= minimumRequired;
     }
 
+    /**
+     *
+     * @return The number of people working this time slot.
+     */
     public int getNumberOfPeople() {
         return numberOfPeopleWorking;
     }
 
-    // We could do this so that the list of people is sorted and we run a binary search to see if the person is already in the list. We could then insert the item alphabetically. However,
-    // we are using an ArrayList and adding the item would result in nearly the same time efficiency(since we would now be adding to the middle of the list rather than the end). Adding N items would make this ultimately a O(n^2) growth rate. Plus, there would be extra overhead in calling a method either way.
+    /**
+     * This method attempts to add a person to the people who are available. If there is a conflict or if the person is already available, the person will not be added.
+     * @param person The person to add to the ArrayList of people who are available
+     */
     public void addPersonToPeopleAvailable(Person person) {
         if (this.checkForConflicts(person)){
             System.out.println("There is a conflict that prevents this person from being available at this time");
@@ -110,16 +146,18 @@ public class Slot extends Conflictable {
         peopleAvailable.add(person);
         person.addTimeFree(this.time + " " + this.date);
         numberOfPeopleAvailable++;
-        numberCurrentlyAvailable++;
     }
 
+    /**
+     * This considers a peron's capacity, if they are already working the time slot, and if there is a conflict with another time before adding a person to the Arraylist of people who are working the time slot.
+     * @param person The person to add to the ArrayList of people working this time slot.
+     * @return True if the person was successfully added to the time slot. False if the person was not added to the time slot for any number of reasons.
+     */
     public boolean addPersontoPeopleWorking(Person person) {
         if (containsInWorking(person)){
-            System.out.println("Person is already working this slot!");
             return false;
         }
         if (this.checkForConflicts(person)) {
-            System.out.println("Warning there is a conflict! Please address this before adding!");
             return false;
         }
         if (person.atCapacity()){
@@ -132,6 +170,12 @@ public class Slot extends Conflictable {
             return true;
         }
     }
+
+    /**
+     *
+     * @param person The person to check if they are contained in the ArrayList of people working for this time slot.
+     * @return True if the person is in peopleWorking and false if they are not.
+     */
     public boolean containsInWorking(Person person){
         boolean found = false;
         for (Person personItr : peopleWorking) {
@@ -141,16 +185,27 @@ public class Slot extends Conflictable {
         }
         return found;
     }
+
+    /**
+     *
+     * @param person The person to remove from the list of people who were initially available.
+     * @return True if the person was contained in peopleAvailable and removed. False if the person was not contained in peopleAvailable and not successfully removed.
+     */
     public boolean removePersonFromPeopleAvailable(Person person) {
         Boolean removed = peopleAvailable.remove(person);
         if (removed) {
             person.removeTimeFree(this.time + " " + this.date);
             numberOfPeopleAvailable--;
-            numberCurrentlyAvailable--;
         }
         return removed;
     }
-    public boolean removePersonFromPeopleFilling(Person person) {
+
+    /**
+     *
+     * @param person The person to remove from the list of people who are working this time slot.
+     * @return True if the person was contained in peopleWorking and removed. False if the person was not contained in peopleWorking and not successfully removed.
+     */
+    public boolean removePersonFromPeopleWorking(Person person) {
         Boolean removed = peopleWorking.remove(person);
         if (removed) {
             numberOfPeopleWorking--;
@@ -160,27 +215,19 @@ public class Slot extends Conflictable {
         return removed;
     }
 
-    public Person removeAndGetFirstPersonAvailable() {
-        Person person = peopleAvailable.remove(0);
-        if (person != null){
-            numberOfPeopleAvailable--;
-            numberCurrentlyAvailable--;
-            person.removeTimeFree(this.time + " " + this.date);
-        }
-        return person;
+    /**
+     *
+     * @return True if nobody is working this time slot. False if at least one person is working this time slot.
+     */
+    public boolean nobodyWorking() {
+        return numberOfPeopleWorking > 0;
     }
 
     /**
-     * Sorts the people available as determined by a Comparator.
-     * @param comparator
+     *
+     * @param person The person to check if they are in peopleAvailable
+     * @return True if the person is in peopleAvailable. False if the person was not found.
      */
-    public void sortPeopleAvailable(Comparator<Person> comparator) {
-        Collections.sort(peopleAvailable, comparator);
-    }
-    public boolean isEmpty() {
-        return numberOfPeopleWorking == 0;
-    }
-
     public boolean containsInAvailable(Person person) {
         boolean found = false;
         for (Person personItr : peopleAvailable) {
@@ -191,25 +238,34 @@ public class Slot extends Conflictable {
         return found;
     }
 
+    /**
+     *
+     * @param otherConflictable Another conflictable object
+     * @return True if there is a conflict between the two conflictable objects(this and the otherConflictable). False if there is not a conflict.
+     */
     public boolean checkForConflicts(Conflictable otherConflictable) {
         return super.checkForPotentialConflicts(otherConflictable);
     }
 
+    /**
+     * Creates a new conflict marker object with the specified character and int value and attempts to add it to the slot. If it is already present the method will return false.
+     * @param character The character value of the conflict marker to add.
+     * @param i The int value of the conflict marker to add.
+     * @return False if the conflict marker is already present. True if the conflict marker was successfully added.
+     */
     public boolean addConflictMarker(Character character, int i) {
-        boolean added;
         ConflictMarker conflictMarkerToAdd = new ConflictMarker(character, i);
-        System.out.println("Attempting to add a ConflictMarker object " + conflictMarkerToAdd.hashCode() + " to slot " + this.hashCode());
-        added = super.addConflictMarkerToInstance(conflictMarkerToAdd);
-        if (added) {
-            System.out.println("Successfully added marker to slot " + this.hashCode());
-        } else {
-            System.out.println("Marker already present in slot " + hashCode());
-        }
-        return added;
+        return super.addConflictMarkerToInstance(conflictMarkerToAdd);
     }
+
+    /**
+     *  Removes the conflict marker with the specified character and int values from all of the people in the slot and the slot itself.
+     * @param character The character value of a conflict marker
+     * @param i The int value of a conflict marker.
+     * @return True if the conflict marker was found and removed from this slot. False if the conflcit marker was not found and removed from this slot.
+     */
     public boolean removeAllConflictMarkerRelatedToSlotFromAll(Character character, int i) {
         ConflictMarker conflictMarkerToRemove = new ConflictMarker(character, i);
-        System.out.println("Attempting to remove conflict marker " + conflictMarkerToRemove.hashCode() + " from slot " + hashCode() + " and master set");
         for (Person person : peopleAvailable) {
             // if (person.containsMarker) // TODO
             person.removeConflictMarker(character, i);
@@ -220,18 +276,33 @@ public class Slot extends Conflictable {
         }
         return super.removeConflictMarkerFromInstance(conflictMarkerToRemove);
     }
+
+    /**
+     *  Sets the maximum number of people that should be working this time slot.
+     * @param i The max value to set for this slot.
+     */
     public void setMax(int i){
         if (i < 0){
             throw new IllegalArgumentException("Please enter a maximum value equal to or above zero");
         }
         max = i;
     }
+
+    /**
+     * Sets the minimum number of people that should be working this time slot.
+     * @param i The min value to set for this slot.
+     */
     public void setMinimumRequired(int i){
         if (i < 0 ){
             throw new IllegalArgumentException("Please enter a minimum value equal to or above zero");
         }
         minimumRequired = i;
     }
+
+    /**
+     *
+     * @return A string that represents the time that this slot is on.
+     */
     public String getTime(){
         return time;
     }

@@ -3,6 +3,10 @@ import exception.TimeDateInvalidFormatException;
 
 import java.util.*;
 
+/**
+ * This class implements the schedule interface. It serves as the master schedule for our main method. It's key is a string that represents a date and time. It's values are slot objects.
+ */
+
 public class TheTimeMap implements Schedule {
     private final LinkedHashMap<String, Slot> timeSlotMap;
     private int numberOfTimeSlots;
