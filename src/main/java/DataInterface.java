@@ -25,7 +25,7 @@ public class DataInterface {
     private int defaultMax = 6;
     private String readSheetID = "1UHWD0gPBFV-ab7qa3FQ0pDbSYTxsrFpmXZGp71xFQwQ";
     private String writeSheetID = "1hRLbsjpvW20V1b_QytLXNQ7TqQshh7eHdbP5ZD5NrPw";
-    final String inputValueOption = "RAW";
+    private final String inputValueOption = "RAW";
     public void getDataFromSpreadsheet(final PersonMapHash peopleMap, final TheTimeMap timeMap) {
         peopleMap.clear();
         timeMap.clear();
@@ -109,7 +109,7 @@ public class DataInterface {
             ex.printStackTrace();
         }
     }
-
+    //This is the example write method provided by Google. It has been modified to accept fewer arguments and set the major dimension to columns.
     public UpdateValuesResponse updateValues(final String range, final List<List<Object>> _values) throws IOException {
         // [START sheets_update_values]
         List<List<Object>> values;
@@ -117,7 +117,8 @@ public class DataInterface {
         values = _values;
         // [END_EXCLUDE]
         ValueRange body = new ValueRange()
-                .setValues(values);
+                .setValues(values)
+                .setMajorDimension("COLUMNS");
         UpdateValuesResponse result =
                 sheet.spreadsheets().values().update(writeSheetID, range, body)
                         .setValueInputOption(inputValueOption)
