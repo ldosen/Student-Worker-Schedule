@@ -17,7 +17,7 @@ public class Slot extends Conflictable {
     private Slot()
     {
         max = 6;
-        minimumRequired = 5;
+        minimumRequired = 4;
         date = "";
         time = "";
     }

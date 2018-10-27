@@ -22,8 +22,8 @@ public class DataInterface {
     private int numberOfInputEntries; //WARNING SPREADSHEET must meet formatting to get an accurate number.
     private int numberOfDates; //WARNING: SPREADSHEET must meet formatting to get an accurate number.
     private int defaultMin = 5;
-    private int defaultMax = 6;
-    private String readSheetID = "1UHWD0gPBFV-ab7qa3FQ0pDbSYTxsrFpmXZGp71xFQwQ";
+    private int defaultMax = 8;
+    private String readSheetID = "1ly1mY_rh9r2wcLwn_YCF2MtbaHPiL-rIK_jNjdByYDE";
     private String writeSheetID = "1hRLbsjpvW20V1b_QytLXNQ7TqQshh7eHdbP5ZD5NrPw";
     private final String inputValueOption = "RAW";
     public void getDataFromSpreadsheet(final PersonMapHash peopleMap, final TheTimeMap timeMap) {

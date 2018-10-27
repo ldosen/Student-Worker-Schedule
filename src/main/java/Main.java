@@ -30,8 +30,12 @@ public class Main {
         for (Map.Entry<String, Slot> entry : schedule.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue().getPeopleAvailableNamems() + entry.getValue().getPeopleAvailableNamems().size());
         }
-        Conflictable.applyThisCharRuleToEntireSchedule(schedule, 'A', "9:45", "10:45");
-        Conflictable.applyThisCharRuleToEntireSchedule(schedule, 'B', "12:45", "1:15");
+        /*
+        Conflictable.applyThisCharRuleToEntireSchedule(schedule, 'A',"9:30","10:45");
+        Conflictable.applyThisCharRuleToEntireSchedule(schedule, 'B',"10:45","12:00");
+        Conflictable.applyThisCharRuleToEntireSchedule(schedule, 'C',"2:15","2:45");
+        */
+
         for (Map.Entry<String, Slot> entry : schedule.entrySet()) {
             ArrayList<Person> guides = entry.getValue().getPeopleAvailable();
             while (!(entry.getValue().atMax()) && !(guides.isEmpty())) {
@@ -54,9 +58,9 @@ public class Main {
                 theDataInterface.updateValues(range, values);
             }
         }
-        */
         //for testing purposes only!
         List<List<Object>> values = Collections.singletonList(Arrays.asList(schedule.getTimeSlot("9:45 AM Mon").getPeopleWorkingNames().toArray()));
-        theDataInterface.updateValues("Sheet1!B3:B12", values);
+        theDataInterface.updateValues("Sheet1!E3:E7", values);
+        */
     }
 }
